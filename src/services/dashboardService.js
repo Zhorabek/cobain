@@ -6,14 +6,12 @@ export async function sendDashboard(ctx) {
   const business = await getBusinessByOwnerId(ctx.env.DB, ownerTgId);
 
   if (!business) {
-    return ctx.reply(
-      "Welcome to EasyQueue Business.\n\nCreate your business profile to start receiving bookings from clients.",
-      { reply_markup: onboardingKeyboard() }
-    );
+    return ctx.reply(`${ctx.t("start_title")}.\n\n${ctx.t("welcome_create_profile")}`, {
+      reply_markup: onboardingKeyboard(ctx.t),
+    });
   }
 
-  return ctx.reply(
-    `Welcome back, ${business.name}.\n\nManage your business profile and bookings from the menu below.`,
-    { reply_markup: dashboardKeyboard() }
-  );
+  return ctx.reply(`${ctx.t("welcome_back")}, ${business.name}.\n\n${ctx.t("dashboard_hint")}`, {
+    reply_markup: dashboardKeyboard(ctx.t),
+  });
 }

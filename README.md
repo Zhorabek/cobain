@@ -24,6 +24,7 @@ src/
   services/
     dashboardService.js
   db/
+    userPreferencesRepository.js
     businessRepository.js
     servicesRepository.js
     photosRepository.js
@@ -32,6 +33,8 @@ src/
     stateRepository.js
   utils/
     keyboards.js
+  i18n.js
+  i18n.ts
 ```
 
 ## Required Environment Variables
@@ -72,3 +75,10 @@ https://<your-worker-domain><BOT_WEBHOOK_PATH>
 - The bot identifies business by `owner_tg_id = Telegram user id`.
 - Dynamic dashboard is shown based on existence of record in `businesses` table.
 - Bot uses a `bot_states` table for safe step-based flows.
+
+
+## Localization
+
+- First launch asks language selection: `🇺🇿 O'zbekcha` or `🇷🇺 Русский`.
+- Selected language is stored in D1 table `user_preferences` per `owner_tg_id`.
+- All UI texts and key menu buttons are rendered through `getMessage(lang, key)`.

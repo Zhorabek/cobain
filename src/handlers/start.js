@@ -1,8 +1,9 @@
 import { InlineKeyboard } from "grammy";
 import { createBusiness, getBusinessByOwnerId } from "../db/businessRepository.js";
 import { clearUserState, setUserState } from "../db/stateRepository.js";
+import { setUserLanguage } from "../db/userPreferencesRepository.js";
 import { sendDashboard } from "../services/dashboardService.js";
-import { cancelKeyboard } from "../utils/keyboards.js";
+import { cancelKeyboard, languageKeyboard } from "../utils/keyboards.js";
 
 const CATEGORIES = [
   { id: 1, label: "💈 Barbershop" },
@@ -13,18 +14,32 @@ const CATEGORIES = [
   { id: 6, label: "🍽 Restaurant" },
 ];
 
-function categoriesKeyboard() {
+function categoriesKeyboard(t) {
   const keyboard = new InlineKeyboard();
   CATEGORIES.forEach((category, index) => {
     keyboard.text(category.label, `onboarding:category:${category.id}`);
     if (index % 2 === 1) keyboard.row();
   });
-  keyboard.row().text("⬅ Back", "dashboard:home");
+  keyboard.row().text(t("back"), "dashboard:home");
   return keyboard;
 }
 
 export function registerStartHandlers(bot) {
   bot.command("start", async (ctx) => {
+    await clearUserState(ctx.env.DB, ctx.from.id);
+    if (!ctx.lang) {
+      await ctx.reply(ctx.t("choose_language"), { reply_markup: languageKeyboard(ctx.t) });
+      return;
+    }
+    await sendDashboard(ctx);
+  });
+
+  bot.callbackQuery(/^lang:(ru|uz)$/, async (ctx) => {
+    await ctx.answerCallbackQuery();
+    const lang = ctx.match[1];
+    await setUserLanguage(ctx.env.DB, ctx.from.id, lang);
+    ctx.lang = lang;
+    ctx.t = (key) => ctx.getMessage(lang, key);
     await clearUserState(ctx.env.DB, ctx.from.id);
     await sendDashboard(ctx);
   });
@@ -37,10 +52,7 @@ export function registerStartHandlers(bot) {
 
   bot.callbackQuery("onboarding:about", async (ctx) => {
     await ctx.answerCallbackQuery();
-    await ctx.reply(
-      "EasyQueue helps local businesses receive bookings and reduce waiting time for clients.",
-      { reply_markup: cancelKeyboard() }
-    );
+    await ctx.reply(ctx.t("about_text"), { reply_markup: cancelKeyboard(ctx.t) });
   });
 
   bot.callbackQuery("onboarding:create_business", async (ctx) => {
@@ -48,13 +60,13 @@ export function registerStartHandlers(bot) {
 
     const existing = await getBusinessByOwnerId(ctx.env.DB, ctx.from.id);
     if (existing) {
-      await ctx.reply("Your business is already created.");
+      await ctx.reply(ctx.t("business_exists"));
       await sendDashboard(ctx);
       return;
     }
 
     await setUserState(ctx.env.DB, ctx.from.id, "create_business:name");
-    await ctx.reply("Step 1/3 — Send your business name.", { reply_markup: cancelKeyboard() });
+    await ctx.reply(ctx.t("step_name"), { reply_markup: cancelKeyboard(ctx.t) });
   });
 
   bot.callbackQuery(/^onboarding:category:(\d+)$/, async (ctx) => {
@@ -66,9 +78,7 @@ export function registerStartHandlers(bot) {
       name: state?.payload?.name,
       categoryId,
     });
-    await ctx.reply("Step 3/3 — Send your business location using Telegram location pin.", {
-      reply_markup: cancelKeyboard(),
-    });
+    await ctx.reply(ctx.t("step_location"), { reply_markup: cancelKeyboard(ctx.t) });
   });
 
   bot.on("message:text", async (ctx, next) => {
@@ -78,12 +88,12 @@ export function registerStartHandlers(bot) {
     if (state.state === "create_business:name") {
       const name = ctx.message.text.trim();
       if (name.length < 2) {
-        await ctx.reply("Name is too short. Send a valid business name.");
+        await ctx.reply(ctx.t("name_too_short"));
         return;
       }
 
       await setUserState(ctx.env.DB, ctx.from.id, "create_business:category", { name });
-      await ctx.reply("Step 2/3 — Choose your category.", { reply_markup: categoriesKeyboard() });
+      await ctx.reply(ctx.t("step_category"), { reply_markup: categoriesKeyboard(ctx.t) });
       return;
     }
 
@@ -96,7 +106,7 @@ export function registerStartHandlers(bot) {
 
     const draft = state.payload ?? {};
     if (!draft.name || !draft.categoryId) {
-      await ctx.reply("Onboarding data expired. Tap Create Business again.");
+      await ctx.reply(ctx.t("onboarding_expired"));
       await clearUserState(ctx.env.DB, ctx.from.id);
       return;
     }
@@ -114,7 +124,7 @@ export function registerStartHandlers(bot) {
     });
 
     await clearUserState(ctx.env.DB, ctx.from.id);
-    await ctx.reply("✅ Business profile created successfully.");
+    await ctx.reply(ctx.t("business_created"));
     await sendDashboard(ctx);
   });
 
@@ -123,12 +133,12 @@ export function registerStartHandlers(bot) {
     if (!state) return next();
 
     if (state.state === "create_business:category") {
-      await ctx.reply("Please choose a category from buttons.");
+      await ctx.reply(ctx.t("choose_category_buttons"));
       return;
     }
 
     if (state.state === "create_business:location") {
-      await ctx.reply("Please send a location pin to continue.");
+      await ctx.reply(ctx.t("send_location_pin"));
       return;
     }
 

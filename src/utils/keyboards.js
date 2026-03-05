@@ -1,76 +1,77 @@
 import { InlineKeyboard } from "grammy";
 
-export function onboardingKeyboard() {
+export function languageKeyboard(t) {
+  return new InlineKeyboard().text(t("language_uz"), "lang:uz").row().text(t("language_ru"), "lang:ru");
+}
+
+export function onboardingKeyboard(t) {
+  return new InlineKeyboard().text(t("create_business"), "onboarding:create_business").row().text(t("about_easyqueue"), "onboarding:about");
+}
+
+export function dashboardKeyboard(t) {
   return new InlineKeyboard()
-    .text("🚀 Create Business", "onboarding:create_business")
+    .text(t("my_business"), "dashboard:business")
+    .text(t("services"), "dashboard:services")
     .row()
-    .text("ℹ About EasyQueue", "onboarding:about");
+    .text(t("schedule"), "dashboard:schedule")
+    .text(t("photos"), "dashboard:photos")
+    .row()
+    .text(t("address"), "dashboard:address")
+    .text(t("reviews"), "dashboard:reviews")
+    .row()
+    .text(t("settings"), "dashboard:settings");
 }
 
-export function dashboardKeyboard() {
+export function backKeyboard(t, target = "dashboard:home") {
+  return new InlineKeyboard().text(t("back"), target);
+}
+
+export function myBusinessKeyboard(t) {
   return new InlineKeyboard()
-    .text("🏪 My Business", "dashboard:business")
-    .text("🧰 Services", "dashboard:services")
+    .text(t("edit_name"), "business:edit_name")
     .row()
-    .text("📅 Schedule", "dashboard:schedule")
-    .text("🖼 Photos", "dashboard:photos")
+    .text(t("edit_address"), "business:edit_address")
     .row()
-    .text("📍 Address", "dashboard:address")
-    .text("⭐ Reviews", "dashboard:reviews")
+    .text(t("manage_photos"), "dashboard:photos")
     .row()
-    .text("⚙ Settings", "dashboard:settings");
+    .text(t("back"), "dashboard:home");
 }
 
-export function backKeyboard(target = "dashboard:home") {
-  return new InlineKeyboard().text("⬅ Back", target);
-}
-
-export function myBusinessKeyboard() {
+export function servicesKeyboard(t) {
   return new InlineKeyboard()
-    .text("✏ Edit name", "business:edit_name")
+    .text(t("add_service"), "services:add")
     .row()
-    .text("📍 Edit address", "business:edit_address")
+    .text(t("edit_service"), "services:edit")
     .row()
-    .text("🖼 Manage photos", "dashboard:photos")
+    .text(t("delete_service"), "services:delete")
     .row()
-    .text("⬅ Back", "dashboard:home");
+    .text(t("back"), "dashboard:home");
 }
 
-export function servicesKeyboard() {
+export function scheduleKeyboard(t) {
   return new InlineKeyboard()
-    .text("➕ Add service", "services:add")
+    .text(t("set_working_hours"), "schedule:set_hours")
     .row()
-    .text("✏ Edit service", "services:edit")
+    .text(t("add_slot"), "schedule:add_slot")
     .row()
-    .text("🗑 Delete service", "services:delete")
+    .text(t("remove_slot"), "schedule:remove_slot")
     .row()
-    .text("⬅ Back", "dashboard:home");
+    .text(t("back"), "dashboard:home");
 }
 
-export function scheduleKeyboard() {
+export function photosKeyboard(t) {
   return new InlineKeyboard()
-    .text("🕒 Set working hours", "schedule:set_hours")
+    .text(t("upload_photo"), "photos:add")
     .row()
-    .text("➕ Add slot", "schedule:add_slot")
+    .text(t("delete_photo"), "photos:delete")
     .row()
-    .text("🗑 Remove slot", "schedule:remove_slot")
-    .row()
-    .text("⬅ Back", "dashboard:home");
+    .text(t("back"), "dashboard:home");
 }
 
-export function photosKeyboard() {
-  return new InlineKeyboard()
-    .text("➕ Upload photo", "photos:add")
-    .row()
-    .text("🗑 Delete photo", "photos:delete")
-    .row()
-    .text("⬅ Back", "dashboard:home");
+export function settingsKeyboard(t) {
+  return new InlineKeyboard().text(t("back"), "dashboard:home");
 }
 
-export function settingsKeyboard() {
-  return new InlineKeyboard().text("⬅ Back", "dashboard:home");
-}
-
-export function cancelKeyboard() {
-  return new InlineKeyboard().text("⬅ Back", "dashboard:home");
+export function cancelKeyboard(t) {
+  return new InlineKeyboard().text(t("back"), "dashboard:home");
 }
