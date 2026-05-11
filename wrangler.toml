@@ -1,0 +1,11 @@
+name = "easyqueue-business-bot"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+BOT_WEBHOOK_PATH = "/telegram/webhook"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "easyqueue"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
