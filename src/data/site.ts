@@ -5,8 +5,8 @@ export const navigation = [
 ];
 export const brand = { name: "PORT", subtitle: "ПОРТ • КЕЙТЕРИНГ" };
 // TODO: Replace placeholders with PORT Catering's real contacts before launch.
-export const phone = "+7 (700) 000-00-00";
-export const whatsapp = "77000000000";
+export const phone = "+7 (707) 240-88-18";
+export const whatsapp = "77072408818";
 export const email = "hello@example.com";
 export const addresses = ["Алматы, точный адрес уточняется"];
 export const socials = [
