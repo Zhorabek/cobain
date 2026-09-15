@@ -8,3 +8,5 @@ npm run dev
 ```
 
 Deploy by importing this repository into Vercel. Contact details, catalogue content and temporary external photography URLs live in `src/data/site.ts`.
+
+<!-- preview trigger: PORT Catering -->
