@@ -3,22 +3,22 @@ export const navigation = [
   { label: "Меню", href: "#menu" }, { label: "Портфолио", href: "#gallery" },
   { label: "Отзывы", href: "#reviews" }, { label: "Контакты", href: "#contacts" },
 ];
-export const brand = { name: "PORT", subtitle: "ПОРТ • КЕЙТЕРИНГ" };
-// TODO: Replace placeholders with PORT Catering's real contacts before launch.
+export const brand = { name: "ASHANA PORT", subtitle: "СТОЛОВАЯ • КЕЙТЕРИНГ" };
+// TODO: Replace placeholders with ASHANA PORT's real contacts before launch.
 export const phone = "+7 (707) 240-88-18";
 export const whatsapp = "77072408818";
 export const email = "hello@example.com";
 export const addresses = ["Алматы, точный адрес уточняется"];
 export const socials = [
   { label: "Instagram", href: "https://instagram.com/" },
-  { label: "WhatsApp", href: `https://wa.me/${whatsapp}?text=${encodeURIComponent("Здравствуйте! Хочу получить расчёт от PORT Catering.")}` },
+  { label: "WhatsApp", href: `https://wa.me/${whatsapp}?text=${encodeURIComponent("Здравствуйте! Хочу получить расчёт от ASHANA PORT.")}` },
 ];
 export const trustedCompanies = [{ name: "Sulpak" }, { name: "adidas" }, { name: "АРЗ 405", icon: "helicopter" }];
 export const stats = { dailyPortions: "Более 500 порций в день", caption: "Для команд и корпоративных заказов" };
 export const corporateMeal = { price: 2500, currency: "₸", includes: ["Первое", "Второе", "Салат", "Компот", "Хлеб"] };
 const mealLine = corporateMeal.includes.join(" + ");
 const unsplash = (photoId: string, width = 1600) => `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=${width}&q=85`;
-// TODO: Replace these URLs with approved PORT Catering photography.
+// TODO: Replace these URLs with approved ASHANA PORT photography.
 export const images = {
   hero: unsplash("photo-1555244162-803834f70033", 2000),
   banquetCta: unsplash("photo-1519167758481-83f550bb49b3", 2000),
@@ -39,9 +39,9 @@ export const dishes = [
   ["Самса","photo-1601050690597-df0568f70950"], ["Баурсаки","photo-1590080875515-8a3a8dc5735e"],
 ].map(([name,photo])=>({name,image:unsplash(photo)}));
 export const gallery = [
-  ["photo-1555244162-803834f70033","Кейтеринг PORT"], ["photo-1547592180-85f173990554","Фуршетные закуски"],
+  ["photo-1555244162-803834f70033","Кейтеринг ASHANA PORT"], ["photo-1547592180-85f173990554","Фуршетные закуски"],
   ["photo-1504674900247-0877df9cc836","Горячие блюда"], ["photo-1519167758481-83f550bb49b3","Банкетная сервировка"],
-  ["photo-1601050690597-df0568f70950","Свежая самса"], ["photo-1590080875515-8a3a8dc5735e","Выпечка PORT"],
+  ["photo-1601050690597-df0568f70950","Свежая самса"], ["photo-1590080875515-8a3a8dc5735e","Выпечка ASHANA PORT"],
 ].map(([photo,alt])=>({image:unsplash(photo),alt}));
 export const reviews = [
   { name:"Айгерим С.", text:"Заказывали питание для офиса. Всё вкусно, всегда вовремя. Команда довольна!" },
