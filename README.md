@@ -1,6 +1,6 @@
-# PORT Catering
+# ASHANA PORT
 
-Production-ready landing page for PORT Catering in Almaty.
+Production-ready landing page for ASHANA PORT in Almaty.
 
 ```bash
 npm install
